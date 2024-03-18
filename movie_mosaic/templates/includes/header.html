@@ -1,0 +1,74 @@
+{% load static %}
+{% with request.resolver_match.view_name as view_name %}
+
+<header>
+  <nav class="navbar navbar-expand-lg border-bottom border-dark navbar-light bg-dark shadow-sm">
+    <div class="container">
+
+      <div 
+        class="navbar-toggler" 
+        type="button" 
+        data-toggle="collapse" 
+        data-target="#navbarNav" 
+        aria-controls="navbarNav" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation"
+        >
+        <span class="navbar-toggler-icon"></span>
+      </div>
+      <div class="collapse navbar-collapse " id="navbarNav">                      
+        <ul class="nav nav-pills ">
+          <li class="nav-item">           
+            <a
+            href="{% url 'homepage:index' %}"><button type="button" class="btn btn-dark">
+            Популярное</button>
+         </a>
+          </li>
+          <li class="nav-item">
+            <a
+            "{% if view_name == 'catalog:about'%} 
+              active 
+            {% endif %}"
+            href="{% url 'catalog:about'%}"><button type="button" class="btn btn-dark">
+              О проекте</button>
+            </a> 
+          </li>
+        </li>
+        <li class="nav-item">
+          <a
+          "{% if view_name == 'catalog:rules'%} 
+            active 
+          {% endif %}"
+          href="{% url 'catalog:rules'%}"><button type="button" class="btn btn-dark">
+            Инфо</button>
+          </a> 
+        </li>
+        <li class="nav-item">
+          <a
+          "{% if view_name == 'homepage:random_movie'%} 
+            active 
+          {% endif %}"
+          href="{% url 'homepage:random_movie'%}"><button type="button" class="btn btn-dark">
+            Случайный фильм</button>
+          </a> 
+        </li>
+        <li class="nav-item">
+          <a
+          "{% if view_name == 'homepage:select_movie'%} 
+            active 
+          {% endif %}"
+          href="{% url 'homepage:select_movie'%}"><button type="button" class="btn btn-dark">
+            Поиск фильма</button>
+          </a> 
+        </li>
+        </ul>
+      </div>
+      <a href="{% url 'homepage:index' %}">
+      <img src="{% static 'img/logo.jpg' %}" height="50" alt=""> 
+      </a>      
+      
+    </div>
+
+  </nav>
+</header>
+{% endwith %} 

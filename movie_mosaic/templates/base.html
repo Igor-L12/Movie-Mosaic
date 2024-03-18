@@ -1,0 +1,27 @@
+{% load static %}
+{% load thumbnail %}
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <link rel="icon" href="{% static 'img/fav/logo.ico' %}" type="image">
+    {% load django_bootstrap5 %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <title>
+      {% block title %}
+      {{ title }}
+      {% endblock %}
+    </title>
+  </head>
+  <body class="bg-dark text-light">
+    {% include "includes/header.html" %}
+    <main>
+      <div class="container py-5">
+        {% block content %}
+          Контент не подвезли :
+        {% endblock %}
+      </div>
+    </main>
+    {% include "includes/footer.html" %}   
+  </body>
+</html> 

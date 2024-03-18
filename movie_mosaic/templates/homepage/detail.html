@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+{{ movies.original_title__title }} {{ movies.release_year__year }}
+{% endblock %}
+{% block content %}
+
+<div class="d-flex flex-row; header">
+{% thumbnail movies.image "300x400" crop="center" as im %}
+<img src="{{ im.url }}" >
+{% endthumbnail %}
+<div style="margin-left: 90px;">
+    <div>
+        Фильм: <h6 style="display: inline; margin: 0;">{{ movies.original_title__title }}</h6> ({{ movies.title }},
+        <a href="{% url 'homepage:year' movies.release_year__year %}" style="color: white;" > {{ movies.release_year__year }}</a>)
+        <div>
+        <div>
+            <p>В ролях: {{ actors|join:", " }}</p>
+        </div>
+    <div class="bg-dark text-white">
+            Описание фильма: {{ movies.descriptions }}
+    </div>
+    
+</div>
+</div>
+</p>
+{% endblock %}

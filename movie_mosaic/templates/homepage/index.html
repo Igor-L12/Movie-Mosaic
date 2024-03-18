@@ -1,0 +1,62 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+{% extends "base.html" %}
+{% load thumbnail %}
+<html lang="ru">
+  <head>    
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/fav/fav.ico" type="image">
+    <title>
+      {% block title %}
+      Главная
+      {% endblock %}  
+    </title>     
+  </head>
+
+<body>
+  <main class="pt-5 my-5">       
+    <div class="container ">
+      {% block content %}
+
+      <div style="margin-bottom: 30px;">
+        <h1 class="pb-2 mb-0">Популярные фильмы</h1>
+      </div>
+        {% for movie in movies %}
+      <div class="d-flex flex-row; header">
+        {% thumbnail movie.image "300x400" crop="center" as im %}
+        <img src="{{ im.url }}" >
+        {% endthumbnail %}
+        <div style="margin-left: 40px;">
+          <div>
+            Фильм: <h6 style="display: inline; margin: 0;">{{ movie.original_title }}</h6> ({{ movie.title }},
+            <a href="{% url 'homepage:year' movie.release_year %}" style="color: white;"> {{ movie.release_year }}</a>)
+          </div>
+          <div>
+            <p>
+            Жанр:     {% for genre in movie.product_type.all %}
+            <a href="{% url 'homepage:genre' genre=genre.title %}" style="color: white;" >{{ genre.title }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+          </div>
+          <div>
+            Режиссёр: {{ movie.directors.all|join:", " }}
+          </div>
+          <div>
+            <p>
+            В ролях: {{ movie.actors.all|join:", " }}</p>
+          </div>
+          <div class="bg-dark text-white">
+            Описание фильма: {{ movie.descriptions|truncatewords:50 }}
+          </div>
+        </div>
+      </div>
+      <div style="margin-left: 70px;" class= "py-2">
+          <a href="{% url 'homepage:detail' movie.pk %}"> <button type="button" class="btn btn-dark">Перейти к фильму
+              </button></a>
+            </div>
+            {% endfor %}
+      {% endblock %}
+    </div> 
+  </main>
+  </body>
+</html>
