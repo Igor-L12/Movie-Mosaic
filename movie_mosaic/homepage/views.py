@@ -44,7 +44,7 @@ def years(request, year):
 
 def random_movie(request):
     template_name = 'homepage/random_movie.html'
-    form = GenreForm(request.POST or None)
+    form = GenreForm(request.GET or None)
     random_movie = None
 
     if form.is_valid():
@@ -60,7 +60,7 @@ def random_movie(request):
 
 def select_movie(request):
     template_name = 'homepage/select_movie.html'
-    form = GenreForm(request.POST or None)
+    form = GenreForm(request.GET or None)
     select_movies = []
     genre = ''
 

@@ -10,9 +10,8 @@
 {% block content %}
 
 <h1 class="pb-2 mb-0">Поиск фильмов по жанрам</h1>
-<form method="post">
+<form method="get">
     
-    {% csrf_token %}
     <div class="mb-3">
     {{ form.as_p }} 
     </div>

@@ -10,8 +10,7 @@
 {% block content %}
 
 <h1 class="pb-2 mb-0">Ломаешь голову, что посмотреть? Выбирай жанр и получи случайный фильм, выбранный судьбой!</h1>
-<form method="post">
-    {% csrf_token %}
+<form method="get">
     <div class="mb-3">
     {{ form.as_p }} 
     </div>
