@@ -90,6 +90,12 @@ class VideoProduct(BaseModel):
     class Meta():
         verbose_name='Фильм'
         verbose_name_plural='Фильмы'
+        constraints = (
+            models.UniqueConstraint(
+                fields=('title', 'original_title'),
+                name='Ограничение на один фильм',
+            ),
+        )
 
     def __str__(self):
         return self.title

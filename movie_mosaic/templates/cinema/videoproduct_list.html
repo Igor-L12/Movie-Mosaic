@@ -22,7 +22,7 @@
       <div style="margin-bottom: 30px;">
         <h1 class="pb-2 mb-0">Популярные фильмы</h1>
       </div>
-        {% for movie in movies %}
+        {% for movie in page_obj %}
       <div class="d-flex flex-row; header">
         {% thumbnail movie.image "300x400" crop="center" as im %}
         <img src="{{ im.url }}" >
@@ -55,6 +55,7 @@
               </button></a>
             </div>
             {% endfor %}
+            {% include 'includes/paginator.html' %}
       {% endblock %}
     </div> 
   </main>

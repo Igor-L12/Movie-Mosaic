@@ -1,16 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 from cinema.models import *
 from cinema.forms import *
-from django.http import HttpResponse
+from django.core.paginator import Paginator
+from django.views.generic import ListView
 import random
 
-def index(request):
-    template_name = 'homepage/index.html'
-    movies_list = VideoProduct.objects.all().order_by('-created_at')
-    context = {
-        'movies': movies_list
-    }
-    return render(request, template_name, context)
+class IndexListView(ListView):
+    model = VideoProduct
+    ordering = '-created_at'
+    paginate_by = 3
 
 def post_detail(request, pk):
     template_name = 'homepage/detail.html'
