@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block title %}
+
+Случайный фильм
+{% endblock %}
+
+{% block content %}
+
+<h5 class="pb-2 mb-0 text-center">Ломаешь голову, что посмотреть? Выбирай жанр и получи случайный фильм, выбранный судьбой!</h5>
+<form method="get">
+    <div class="mb-3 justify-content-center align-items-center">
+    {{ form.as_p }} 
+    <input type="submit" class="form-input another-custom-btn"  value="Получить фильм" >
+    </div>
+</form>
+
+{% if random_movie %}
+    <h2>Случайный фильм</h2>
+    <div class='header'>
+    {% thumbnail random_movie.image "300x400" crop="center" as im %}
+    <img src="{{ im.url }}" >
+    {% endthumbnail %}
+    <h3>{{ random_movie.original_title }}</h3>
+    <p>{{ random_movie.descriptions }}</p>
+    </div>
+{% endif %}
+{% endblock %}

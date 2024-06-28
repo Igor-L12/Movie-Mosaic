@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+<head>    
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/fav/fav.ico" type="image">
+    <title>
+      {% block title %}
+      Главная
+      {% endblock %}  
+    </title>  
+  </head>
+<body>
+    <div class="container">
+    {% block content %}
+        <form method="get" id="genreForm">
+            <div class="genre-container"">
+                {% for genre in form.genre.field.queryset %}
+                <button type="submit" name="genre" value="{{ genre.id }}" class="btn custom-btn">
+                    <div class="card-body text-center genre-text">
+                        <h5>{{ genre.title }}</h5>
+                    </div>
+                </button>
+                {% endfor %}
+            </div>
+        </form>
+        
+    <h4 class="pb-2 mb-0">Игры</h4>
+    <h6 style="color: rgb(15, 15, 15);">Найдено: {{ object_list.count }}</h6>
+    <div class="row row-cols-1 row-cols-md-6 g-4 header">
+    {% for game in object_list %}
+        <div class="col">
+            <div class="custom-bg-color card">
+                <a href="{% url 'games:detail' game.pk %}">
+                    <img src="{% thumbnail game.image  "300x400" crop="center" %}" class="card-img-top" alt="Тут должна быть обложка игры">
+                </a>
+                <a href="{% url 'games:detail' game.pk %}" class="btn custom-bg-color text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                    <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ game.title }}</h5>
+                </a> 
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+    {% endblock %}
+    </div>
+</body>
+</html>

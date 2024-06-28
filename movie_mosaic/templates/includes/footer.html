@@ -1,0 +1,34 @@
+<!-- footer.html -->
+{% load static %}
+<footer class="border-top text-center text-lg-start bg-body-tertiary text-muted">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 order-lg-2 col-md-12 mb-4 mb-md-0 ">
+                <div class="footer-title">
+                <h6>Интересные разделы</h6>
+                </div>
+                <div class="custom-footer-2">
+                <ul>
+                    <li><a href="{% url 'homepage:random_movie' %}" class="text-reset" style="text-decoration: none;">Случайный фильм</a></li>
+                    <li><a href="{% url 'catalog:about' %}" class="text-reset" style="text-decoration: none;">О проекте</a></li>
+                    <li><a href="{% url 'catalog:rules' %}" class="text-reset" style="text-decoration: none;">Инфо</a></li>
+                    <li><a href="{% url 'homepage:add_movie' %}" class="text-reset" style="text-decoration: none;">Добавить фильм</a></li>
+                </ul>
+            </div>
+            </div>
+            <div class="col-lg-6 order-lg-1 col-md-12 mb-4 mb-md-0" style = "padding-top: 20px;">
+                <div class="col-md-9">
+                    <h6 class="fw-bold mb-6">
+                        <i class="fas fa-gem me-3 custom-footer">Watchers4play.ru</i>
+                    </h6>
+                    <h6>
+                    <p class="custom-footer">
+                        Администрация Watchers4play.ru не несет ответственности за размещенные пользователями материалы.
+                    </p>
+                  </h6>
+                    <p class="custom-footer">© 2024 «L-12 prod.»</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block title %}
+    Поиск по сайту
+    {% endblock %}
+</head>
+{% block content %}
+<body>
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="text-center">
+            <h4>Поиск по сайту</h4>
+            <form method="get" action="{% url 'catalog:search' %}" class="mt-3">
+                {{ form.as_p }}
+                <button type="submit" class="btn btn">Поиск</button>
+              </form>
+        </div>
+    </div>
+
+    {% if query %}
+        <div class="container mt-5">
+            <h5>Фильмы:</h5>
+            <h6>По запросу "{{ query }}" {% if video_results.count == 1 %} найден
+                {{ video_results.count }} результат. {% elif video_results.count == 2 or video_results.count == 4 or video_results.count == 3  %} найдено
+                {{ video_results.count }} результата. {% else %} найдено
+                {{ video_results.count }} результатов. {% endif %} </h6>
+            <div class="row row-cols-1 row-cols-md-6 g-4">
+                {% for movie in video_results %}
+                <div class="col">
+                    <div class="custom-bg-color card h-100">
+                        <a href="{% url 'homepage:detail' movie.pk %}">
+                            <img src="{% thumbnail movie.image  "300x400" crop="center" %}" class="card-img-top" alt="Movie Image">
+                        </a>
+                        <a href="{% url 'homepage:detail' movie.pk %}" class="btn custom-bg-color text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                            <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ movie.original_title }}</h5>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col">
+                    <p style="flex-grow: 1; color:rgb(27, 27, 27)">Ничего нет.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h5>Сериалы:</h5>
+            <h6>По запросу "{{ query }}" {% if serial_results.count == 1 %} найден
+                {{ serial_results.count }} результат. {% elif serial_results.count == 2 or serial_results.count == 4 or serial_results.count == 3  %} найдено
+                {{ serial_results.count }} результата. {% else %} найдено
+                {{ serial_results.count }} результатов. {% endif %} </h6>
+            <div class="row row-cols-1 row-cols-md-6 g-4">
+                {% for serial in serial_results %}
+                <div class="col">
+                    <div class="custom-bg-color card h-100">
+                        <a href="{% url 'serials:detail' serial.pk %}">
+                            <img src="{% thumbnail serial.image  "300x400" crop="center" %}" class="card-img-top" alt="serial Image">
+                        </a>
+                        <a href="{% url 'serials:detail' serial.pk %}" class="btn custom-bg-color text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                            <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ serial.original_title }}</h5>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="col">
+                    <p style="flex-grow: 1; color:rgb(27, 27, 27)">Ничего нет.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <h5>Игры:</h5>
+            <h6>По запросу "{{ query }}" {% if game_results.count == 1 %} найден
+                {{ game_results.count }} результат. {% elif game_results.count == 2 or game_results.count == 4 or game_results.count == 3  %} найдено
+                {{ game_results.count }} результата. {% else %} найдено
+                {{ game_results.count }} результатов. {% endif %} </h6>
+            <div class="row row-cols-1 row-cols-md-6 g-4">
+                {% for game in game_results %}
+                <div class="col">
+                    <div class="custom-bg-color card h-100">
+                        <a href="{% url 'games:detail' game.pk %}">
+                            <img src="{% thumbnail game.image  "300x400" crop="center" %}" class="card-img-top" alt="Тут должна быть обложка игры">
+                        </a>
+                        <a href="{% url 'games:detail' game.pk %}" class="btn custom-bg-color text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                            <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ game.title }}</h5>
+                        </a>
+                    </div>
+                </div>
+                {% empty %}
+                <div >
+                    <p style="flex-grow: 1; color:rgb(27, 27, 27)"> Ничего нет.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <div class="container mt-5">
+            <p class="text-center" style="flex-grow: 1; color:rgb(27, 27, 27)">Что-нибудь найдём.</p>
+        </div>
+    {% endif %}
+</body>
+{% endblock %}
+</html>
+

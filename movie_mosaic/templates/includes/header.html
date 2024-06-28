@@ -1,0 +1,86 @@
+{% load static %}
+{% with request.resolver_match.view_name as view_name %}
+
+<header style="background-color: hsl(0, 0%, 1%);">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+  <nav class="navbar navbar-expand-lg border-bottom border-dark navbar-light shadow-sm">
+    <div class="container ">
+      <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-toggle="collapse" 
+        data-target="#navbarNav" 
+        aria-controls="navbarNav" 
+        aria-expanded="false" 
+        aria-label="Toggle navigation">
+        <span class="" role="button" ><i class="fa fa-bars" aria-hidden="true" style="color:#b7c8fd"></i></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-center"  id="navbarNav">
+        <ul class="nav nav-pills">
+          <li class="nav-item">           
+            <a href="{% url 'homepage:index' %}">
+
+              <button type="button" class="btn text-light">Свежее</button>
+            </a>
+          </li>
+          <li class="nav-item">           
+            <a href="{% url 'catalog:search' %}">
+              <button type="button" class="btn text-light material-symbols-outlined">video_search</button>
+            </a>
+          </li>
+          <li class="nav-item">           
+            <a href="{% url 'homepage:all_movie' %}">
+              <button type="button" class="btn text-light">Фильмы</button>
+            </a>
+          </li>
+          <li class="nav-item">           
+            <a href="{% url 'serials:all_serials' %}">
+              <button type="button" class="btn text-light">Сериалы</button>
+            </a>
+          </li>
+          <li class="nav-item">           
+            <a href="{% url 'games:all_games' %}">
+              <button type="button" class="btn text-light">Игры</button>
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item dropdown">
+            <a class="dropdown-toggle btn text-light" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Пользователь: <b>{{ user.username }}</b>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="userDropdown">
+              <a class="dropdown-item " href="{% url 'password_change' %}">Изменить пароль</a>
+              <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+            </div>
+          </li>      
+          {% else %}
+          <li class="nav-item">
+            <a {% if view_name == 'login' %} class="active" {% endif %}
+               href="{% url 'login' %}">
+              <button type="button" class="btn text-light">Войти</button>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a {% if view_name == 'registration' %} class="active" {% endif %}
+               href="{% url 'registration' %}">
+              <button type="button" class="btn text-light">Зарегистрироваться</button>
+            </a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a href="{% url 'homepage:bookmarked_movie' %}">
+              <button type="button" class="btn text-light material-symbols-outlined">bookmarks</button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div>
+    <div style="position: absolute; right: 50px;">
+      <a href="{% url 'homepage:index' %}">
+        <img src="{% static 'img/watchers(white).png' %}" height="40" alt="">
+      </a>
+    </div>
+  </nav>
+</header>
+{% endwith %}

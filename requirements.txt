@@ -1,0 +1,9 @@
+asgiref==3.7.2
+Django==3.2.16
+django_debug_toolbar==3.8.1
+pillow==10.2.0
+pyperclip==1.8.2
+pytz==2024.1
+sqlparse==0.4.4
+typing_extensions==4.9.0
+django-select2

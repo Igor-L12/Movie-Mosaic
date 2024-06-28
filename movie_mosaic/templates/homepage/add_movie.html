@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% block title %}
+Добавление фильма
+{% endblock %}
+
+{% block content %}
+<style>
+    .form-control {
+        background-color: #000000;
+    }
+    .form-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .form-card, .result-display {
+        width: 48%;
+    }
+    .result-display {
+        background-color: #000000;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+<div class="form-container">
+    <div class="card form-card" style="background-color: #000000;">
+        <div class="card-header">
+            <h1 class="pb-2 mb-0">Добавь фильм, если его нет</h1>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                <input type="submit" class="form-input custom-form"value="Добавить фильм">
+            </form>
+        </div>
+    </div>
+    <div class="result-display">
+        <h3>Введенные данные:</h3>
+        <p><strong>Название:</strong> <span id="title-display"></span></p>
+        <p><strong>Год выпуска:</strong> <span id="year-display"></span></p>
+        <p><strong>Жанр:</strong> <span id="genre-display"></span></p>
+        <p><strong>Описание:</strong> <span id="descriptions-display"></span></p>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{ form.media.js }}
+<script>
+    $(document).ready(function() {
+        $('#id_title').on('input', function() {
+            $('#title-display').text($(this).val());
+        });
+        $('#id_release_year').on('input', function() {
+            $('#year-display').text($(this).val());
+        });
+        $('#id_product_type').on('input', function() {
+            $('#genre-display').text($(this).val());
+        });
+        $('#id_descriptions').on('input', function() {
+            $('#descriptions-display').text($(this).val());
+        });
+    });
+</script>
+{% endblock %}

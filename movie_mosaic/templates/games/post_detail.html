@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}
+{{ game.original_title }} {{ game.release_year }}
+{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="d-flex flex-column align-items-center">
+            <div class="video-cover-container">
+                <div class="blur-background"></div>
+                {% thumbnail game.image "300x400" crop="center" as im %}
+                <img id="video-cover" src="{{ im.url }}" alt="Game Cover" class="video-cover">
+                {% endthumbnail %}
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                {% if not is_bookmarked %}
+                    <button type="submit" name="bookmark_action" value="add" class="btn btn">Добавить в избранное</button>
+                {% else %}
+                    <button type="submit" name="bookmark_action" value="remove" class="btn btn">Удалить из избранного</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div>
+            <h5 style="display: inline; margin: 0;">{{ game.title }}</h5>
+            (<a href="{% url 'games:years' game.release_year %}" style="color: white;" >{{ game.release_year }}</a>)
+          </div>
+          <div>
+            <p> Жанр: {% for genre in game.product_type.all %}
+            <a href="{% url 'games:genres' genre=genre.title %}" style="color: white;">{{ genre.title }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}</p>
+        </div>
+        <div>
+            Описание игры: {{ game.descriptions }}
+        </div>
+        <div class="d-flex flex-row">
+            <div style="margin-right: 20px; margin-top: 20px;">
+                <form action="{% url 'games:add_rating' %}" method="post" name="rating">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ game.id }}" name="game">
+                    <b>Рейтинг:</b>
+                    <span class="rating">
+                        {% for k, v in star_form.fields.star.choices %}
+                        <input id="rating{{ v }}" type="radio" name="star" value="{{ k }}">
+                        <label for="rating{{ v }}">{{ k }}</label>
+                        {% endfor %}                
+                    </span>
+                </form>
+            </div>
+            <div style="margin-right: 20px; margin-top: 20px;">
+                {% if user.is_authenticated %}
+                    {% if user_rating is not None %}
+                        {{ user.username }}, Вы оценили игру на {{ user_rating }} <img src="{% static 'img/star-on-big.png' %}" height="15px" alt="звёздочка" style="margin-top: -3px;">
+                    {% else %}
+                        {{ user.username }}, как Вы оцените игру? 
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'login'%}" style="color: white;"> Войдите</a> или <a href="{% url 'registration'%}" style="color: white;"> зарегистрируйтесь</a>, чтобы оценить игру!
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

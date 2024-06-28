@@ -1,0 +1,160 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+<html lang="ru">
+  <head>    
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/fav/fav.ico" type="image">
+    <title>
+      {% block title %}
+      Главная
+      {% endblock %}  
+    </title> 
+        
+  </head>
+  <body >
+    <main class="pt-5 my-5">       
+      <div class="container">
+        {% block content %}
+        <div class="col-md-9 custom-bg-index"style="margin-bottom: 10px;">
+          <div class="inner-wrapper">
+            <div style="display: flex; align-items: center;">
+              <h5 class="mx-1">Последние добавленные фильмы</h5>
+              <h5 class="custom-font " style="flex-grow: 1; text-align: right; color:rgb(27, 27, 27)">Наведи курсор для доп. информации! <h5 class="material-symbols-outlined" style="color:rgb(27, 27, 27)">call_received</h5> </h5>
+          </div>
+        <div class=" mx-auto d-flex flex-row flex-nowrap"> <!-- Горизонтальный скролл -->
+          {% for movie in page_obj_movies %}
+          <div class="card mx-1 custom-card-color text-light"> <!-- Карточка для фильма -->
+            <a href="{% url 'homepage:detail' movie.pk %}">
+              <img src="{% thumbnail movie.image  "300x400" crop="center" %}" class="card-img-top" alt="Movie Image">
+            </a>
+            <div class="card-body text-light" style="padding: 0rem;">
+              <a href="{% url 'homepage:detail' movie.pk %}" class="btn  text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ movie.original_title }}</h5>
+            </a>
+            
+            <div class="dropdown-text header">
+                <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0.25rem;"> 
+                    {{ movie.title }},
+                    <a href="{% url 'homepage:year' movie.release_year %}" style="color: white;">{{ movie.release_year }}</a>
+                </p>
+                <p class="card-text text-light" style="font-size: 0.75rem; margin-bottom: 0.25rem;">
+                    Жанр: {% for genre in movie.product_type.all %}
+                    <a href="{% url 'homepage:genre' genre=genre.title %}" style="color: white;">{{ genre.title }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Режиссёр: {{ movie.directors.all|join:", "|slice:":20" }}...</p>
+
+                <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0;">В ролях: {{ movie.actors.all|join:", "|slice:":20" }}...</p>
+                {% if movie.user_rating %}
+                <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0;"> <img src="{% static 'img/star-on-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -2px;"> Ваша оценка: {{ movie.user_rating }}</p>
+                {% else %}
+                <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0;"><img src="{% static 'img/star-off-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -2px;"> Ваша оценка: оценки нет</p>
+                {% endif %}
+              </div>
+            </div>
+        </div>
+          {% endfor %}
+        </div>
+      </div>
+      </div>
+
+      <div class="col-md-9 custom-bg-index" style="margin-bottom: 10px;">
+        <div class="inner-wrapper">
+          <div style="display: flex; align-items: center;">
+            <h5 class="mx-1">Последние добавленные игры</h5>
+            <h5 class="custom-font " style="flex-grow: 1; text-align: right; color:rgb(27, 27, 27)">Наведи курсор для доп. информации! <h5 class="material-symbols-outlined" style="color:rgb(27, 27, 27)">call_received</h5> </h5>
+        </div>
+            <div class=" mx-auto d-flex flex-row flex-nowrap"> <!-- Горизонтальный скролл -->
+                {% for game in page_obj_games %}
+                <div class="card mx-1 custom-card-color text-light"> <!-- Карточка для игры -->
+                    <a href="{% url 'games:detail' game.pk %}">
+                        <img src="{% thumbnail game.image  "300x400" crop="center" %}" class="card-img-top" alt="Game Image">
+                    </a>
+                    <div class="card-body text-light" style="padding: 0rem;">
+                        <a href="{% url 'games:detail' game.pk %}" class="btn text-light d-flex justify-content-center align-items-center" style="padding: 0; margin: 0; height: 100%;">
+                            <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ game.title }}</h5>
+                        </a>
+                        <div class="dropdown-text header ">
+                            <p class="card-text " style="font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                <a href="{% url 'games:years' game.release_year %}" class="text-light d-flex justify-content-center align-items-center" style="color: white;">{{ game.release_year }}</a>
+                            </p>
+                            <p class="card-text text-light" style="font-size: 0.75rem; margin-bottom: 0.25rem;">
+                                Жанр: {% for genre in game.product_type.all %}
+                                <a href="{% url 'games:genres' genre=genre.title %}" style="color: white;">{{ genre.title }}</a>{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </p>
+                            <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0.25rem;">Разработчик: {{ game.directors.all|join:", "|slice:":20" }}...</p>
+                            {% if game.user_rating %}
+                            <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0;">
+                                <img src="{% static 'img/star-on-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -2px;"> Ваша оценка: {{ game.user_rating }}
+                            </p>
+                            {% else %}
+                            <p class="card-text" style="font-size: 0.75rem; margin-bottom: 0;">
+                                <img src="{% static 'img/star-off-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -2px;"> Ваша оценка: оценки нет
+                            </p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+      <div class="col-md-9 custom-bg-index posts-block">
+        <div style="margin-bottom: 10px;">
+          <div style="display: flex; align-items: center;">
+            <h5 class="mx-1">Последние новости из мира кино, сериалов и игр.</h5>
+            <div style="margin-left: auto; display: flex; align-items: center;">
+              <a class="custom-font" style="text-align: right; color: rgb(139, 139, 139);" href="{% url 'posts:post_create' %}">
+                Написать пост
+              </a>
+              <div class="material-symbols-outlined" style="color: rgb(139, 139, 139); margin-left: 5px;">
+                edit
+              </div>
+            </div>
+          </div>
+        </div>
+      {% for post in page_obj_posts %}      
+      <article>
+
+          <li class="li-custom">
+            <span class="material-symbols-outlined post-icons">
+              person
+              </span>
+            <a class="custom-btn-news" href="{% url 'posts:profile' post.author %}">{{ post.author }}</a>
+          </li>
+          <li class="li-custom">
+            <span class="material-symbols-outlined post-icons">
+              date_range
+              </span>: <span class="custom-btn-news">{{ post.pub_date|date:"d E Y" }}</span>
+          </li>
+
+        <a href="{% url 'posts:post_detail' post.pk %}"> 
+        <div class="custom-post-text">
+        <h3> {{post.title}} </h3>
+        <p> {{post.text|safe|truncatechars:300}} </p>
+      </div>
+        {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img my-2" src="{{ im.url }}">
+        {% endthumbnail %}
+        </a>
+      </article>
+      {% if post.group %}       
+      <a href="{% url 'posts:group_list' post.group.slug %}">все записи группы</a>
+      {% endif %}
+      {% if not forloop.last %}
+      <hr>
+      {% endif %}
+      {% endfor %}
+            {% include 'includes/paginator.html' %}
+      {% endblock %}
+      </div>
+    </div> 
+  </main>
+  </body>
+</html>

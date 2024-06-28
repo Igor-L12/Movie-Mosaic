@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% block title %}
+{% endblock %}
+
+{% block content %}
+
+<h1 class="pb-2 mb-0">Игры, вышедшие в {{ years }}</h1>
+{% for game in games %}
+<div class="d-flex flex-row; header">
+  {% thumbnail game.image "300x400" crop="center" as im %}
+  <img src="{{ im.url }}" >
+  {% endthumbnail %}
+  <div style="margin-left: 40px;">
+    <div>
+      <h5 style="display: inline; margin: 0;">{{ game.title }}</h5>
+      (<a href="{% url 'games:years' game.release_year %}" style="color: white;" >{{ game.release_year }}</a>)
+    </div>
+    <div>
+      <p>   
+      Жанр: {% for genre in game.product_type.all %}
+      <a href="{% url 'games:genres' genre=genre.title %}" style="color: white;">{{ genre.title }}</a>{% if not forloop.last %}, {% endif %}
+      {% endfor %}
+    </div>
+    <div>
+      Описание фильма: {{ game.descriptions }}
+    </div>
+  </div>
+</div>
+<div style="margin-left: 70px;" class= "py-2">
+    <a href="{% url 'games:detail' game.pk %}"> <button type="button" class="btn custom-bg-color text-light" >Перейти к игре
+        </button></a>
+      </div>
+      {% endfor %}
+{% endblock %}

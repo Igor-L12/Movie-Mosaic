@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load static %}
+<html lang="ru">
+<head>    
+    <meta charset="utf-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="img/fav/fav.ico" type="image">
+    <title>
+        {% block title %}
+        Главная
+        {% endblock %}  
+    </title>  
+</head>
+<body class="pt-5 my-5">       
+    <div class="container">
+        {% block content %}
+        <div style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+            <h5 class="mx-1" style="margin: 0; line-height: 1;">Ваше избранное</h5>
+            <a href="{% url 'homepage:bookmarked_movie' %}">
+                <button type="button" class="btn text-light" style="margin: 0; padding-top: 8px; padding-bottom: 6px;">Фильмы</button>
+            </a>
+            <a href="{% url 'serials:bookmarked_serials' %}">
+                <button type="button" class="btn text-light" style="margin: 0; padding-top: 8px; padding-bottom: 6px;">Сериалы</button>
+            </a>
+            <a href="{% url 'games:bookmarked_games' %}">
+                <button type="button" class="btn text-light" style="margin: 0; padding-top: 8px; padding-bottom: 6px;">Игры</button>
+            </a>
+        </div>
+        
+        
+        
+        <div class="col-md-12 mx-auto d-flex flex-row flex-wrap">
+            {% for bookmark in user_bookmarks %}
+            <div class="card mx-1 custom-bg-color text-light mb-4" style="width: 10rem;">
+                <a href="{% url 'games:detail' bookmark.game.pk %}">
+                    <img src="{% thumbnail bookmark.game.image  "300x400" crop="center" %}" class="card-img-top" alt="Game Image"> <!-- Изображение фильма -->
+                </a>
+                <a href="{% url 'games:detail' bookmark.game.pk %}" class="btn custom-bg-color text-light" style="padding: 0; margin: 0;">
+                    <h5 class="card-title" style="font-size: 0.9rem; margin: 0;">{{ bookmark.game.title }}</h5> <!-- Заголовок фильма -->
+                </a>
+                <div class="card-footer text-end" style="background-color: inherit;">
+                    {% for game in page_obj_games %}
+                    {% if game.id == bookmark.game.id %}
+                    {% if game.user_rating %}
+                    <p class="card-text mb-0" style="font-size: 0.75rem;  position: absolute; right: 30px;"><img src="{% static 'img/star-on-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -1px;"> Ваша оценка: {{ game.user_rating.star.value }}</p>
+                    {% else %}
+                    <p class="card-text mb-0" style="font-size: 0.62rem;  position: absolute;"><img src="{% static 'img/star-off-big.png' %}" height="10px" alt="звёздочка" style="margin-top: -2px;"> Вы ещё не поставили оценку</p>
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endblock %}  
+    </div>
+</body>
+</html>

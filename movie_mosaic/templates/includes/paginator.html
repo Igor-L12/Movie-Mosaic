@@ -1,0 +1,44 @@
+{% if page_obj.has_other_pages %}
+<nav aria-label="Page navigation" class="my-5">
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li class="page-item"><a href="?page=1">
+        <button type="button" class="btn custom-bg-color text-light">Первая</button></a></li>
+      <li class="page-item">
+        <a href="?page={{ page_obj.previous_page_number }}">
+          <button type="button" class="btn custom-bg-color text-light">
+          Предыдущая
+        </button>
+        </a>
+      </li>
+    {% endif %}
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li class="page-item active">
+            <span class="btn custom-bg-color text-light">{{ i }}</span>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="btn custom-bg-color text-light" href="?page={{ i }}">{{ i }}</a>
+          </li>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a href="?page={{ page_obj.next_page_number }}">
+          <button type="button" class="btn custom-bg-color text-light">
+            Следующая
+          </button>
+        </a>
+      </li>
+      <li class="page-item">
+        <a href="?page={{ page_obj.paginator.num_pages }}">
+          <button type="button" class="btn custom-bg-color text-light">
+            Последняя
+          </button>
+        </a>
+      </li>
+    {% endif %}    
+  </ul>
+</nav>
+{% endif %}
